@@ -1,0 +1,14 @@
+{
+  "name": "cordova-plugin-googlewallet",
+  "version": "1.0.0",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-googlewallet",
+    "platforms": ["android"]
+  },
+  "keywords": [
+    "ecosystem:cordova"
+  ],
+  "author": "André Grillo - OutSystems",
+  "license": "MIT"
+}

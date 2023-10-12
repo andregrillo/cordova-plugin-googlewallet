@@ -14,5 +14,6 @@
 		</config-file>
 		<config-file parent="/*" target="AndroidManifest.xml"></config-file>
 		<source-file src="src/android/GoogleWalletPlugin.java" target-dir="src/com/outsystems/experts/googlewallet" />
+		<framework src="src/android/googlewalletplugin.gradle" custom="true" type="gradleReference" />
 	</platform>
 </plugin>

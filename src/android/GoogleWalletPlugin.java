@@ -32,16 +32,30 @@ public class GoogleWalletPlugin extends CordovaPlugin {
             });
             return true;
         }
+        else if ("saveSignedJwtToGooglePay".equals(action)) {
+            this.callbackContext = callbackContext;
+            final String jwtFromOutSystems = args.getString(0);
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    saveToGooglePayJWT(jwtFromOutSystems);
+                }
+            });
+            return true;
+        }
         else if ("canAddPassesToGoogleWallet".equals(action)){
             canAddPassesToGoogleWallet(callbackContext);
+            return true;
         }
         return false;
     }
 
     private void saveToGooglePay(String jwtFromOutSystems) {
         Activity activity = cordova.getActivity();
-        //walletClient = Pay.getClient(activity);
-        walletClient = Pay.getClient(cordova.getActivity().getApplication());
+        if (walletClient == null) {
+            walletClient = Pay.getClient(cordova.getActivity().getApplication());
+            //walletClient = Pay.getClient(activity);
+        }
 
         cordova.setActivityResultCallback(this);
         
@@ -60,7 +74,9 @@ public class GoogleWalletPlugin extends CordovaPlugin {
 
     private void saveToGooglePayJWT(String jwtFromOutSystems) {
         Activity activity = cordova.getActivity();
-        walletClient = Pay.getClient(activity);
+        if (walletClient == null) {
+            walletClient = Pay.getClient(activity);
+        }
 
         cordova.setActivityResultCallback(this);
 
@@ -78,17 +94,23 @@ public class GoogleWalletPlugin extends CordovaPlugin {
                 });
     }
     void canAddPassesToGoogleWallet(CallbackContext callbackContext) {
-        walletClient
-                .getPayApiAvailabilityStatus(PayClient.RequestType.SAVE_PASSES)
-                .addOnSuccessListener(status -> {
-                    if (status == PayApiAvailabilityStatus.AVAILABLE) {
-                        callbackContext.success();
+        if (walletClient == null) {
+            walletClient = Pay.getClient(cordova.getActivity().getApplication());
+        }
+
+        walletClient.getPayApiAvailabilityStatus(PayClient.RequestType.SAVE_PASSES)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        int status = task.getResult();
+                        if (status == PayApiAvailabilityStatus.AVAILABLE) {
+                            callbackContext.success();
+                        } else {
+                            callbackContext.error("The user or device is not eligible for using the Pay API");
+                        }
                     } else {
-                        callbackContext.error("The user or device is not eligible for using the Pay API");
-                    };
-                })
-                .addOnFailureListener(exception -> {
-                    callbackContext.error("Google Play Services is too old, or API availability not verified");
+                        Exception exception = task.getException();
+                        callbackContext.error("Failed to check Google Wallet API availability: " + (exception != null ? exception.getMessage() : "Unknown error"));
+                    }
                 });
     }
     @Override

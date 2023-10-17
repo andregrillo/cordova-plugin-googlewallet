@@ -67,7 +67,7 @@ public class GoogleWalletPlugin extends CordovaPlugin {
         walletClient.getPayApiAvailabilityStatus(PayClient.RequestType.SAVE_PASSES)
                 .addOnSuccessListener(status -> {
                     if (status == PayApiAvailabilityStatus.AVAILABLE) {
-                        walletClient.savePassesJwt(teste, activity, ADD_TO_GOOGLE_WALLET_REQUEST_CODE);
+                        walletClient.savePassesJwt(jwtFromOutSystems, activity, ADD_TO_GOOGLE_WALLET_REQUEST_CODE);
                     } else {
                         callbackContext.error("Google Wallet API is not available.");
                     }

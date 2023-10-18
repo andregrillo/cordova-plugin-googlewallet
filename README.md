@@ -10,7 +10,7 @@ cordova plugin add https://github.com/andregrillo/cordova-plugin-googlewallet.gi
 
 ## Usage
 
-### 1. Save to Google Pay
+### 1. Save unsigned JWT Pass to Google Wallet
 
 ```
 GoogleWalletPlugin.saveToGooglePay(successCallback, errorCallback, newObjectJson);
@@ -20,7 +20,7 @@ GoogleWalletPlugin.saveToGooglePay(successCallback, errorCallback, newObjectJson
 - `errorCallback`: Function to be called upon encountering an error.
 - `newObjectJson`: JSON object to be saved to Google Pay.
 
-### 2. Save Signed JWT to Google Pay
+### 2. Save Signed JWT Pass to Google Wallet
 
 ```
 GoogleWalletPlugin.saveSignedJwtToGooglePay(successCallback, errorCallback, newObjectJson);

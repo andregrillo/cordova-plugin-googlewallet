@@ -1,6 +1,7 @@
 # Google Wallet Cordova Plugin
 
 **Note**: This plugin is designed specifically for Android. Ensure you're working within an Android environment when using this plugin.
+
 This Cordova plugin provides an interface to Google Wallet's API, allowing you to save signed and unsigned JWTs to Google Pay, and check if passes can be added to Google Wallet.
 
 ## Installation
